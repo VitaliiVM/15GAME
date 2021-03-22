@@ -11,6 +11,8 @@ public class Game {
 
     public static void main(String[] args) {
         gameStart();
+
+
     }
 
 
@@ -110,6 +112,21 @@ public class Game {
             }
         }
     }
+
+
+        public boolean checkWin() {
+            boolean status = true;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (i == 3 && j > 2)
+                        break;
+                    if (numbers[i][j] != i * 4 + j + 1) {
+                        status = false;
+                    }
+                }
+            }
+            return status;
+        }
 
     public static void showGameField() {
             System.out.println();
