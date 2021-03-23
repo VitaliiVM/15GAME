@@ -21,13 +21,13 @@ public class Game {
 
 
     private static void gameStart() throws IOException {
-        System.out.println("ПЯТНАШКИ");
+        System.out.println("-------------------------------------ПЯТНАШКИ-----------------------------------------------");
         init();
 
         do {
             showGameField();
             System.out.println();
-            System.out.println("Введите номер ячейки,который вы хотите переместить:");
+            System.out.println("               Введите номер ячейки,который вы хотите переместить:");
             enter = Integer.parseInt(reader.readLine());
             change(enter);
             checkWin();
@@ -153,13 +153,14 @@ public class Game {
             System.out.println();
 
         for (int i = 0; i < numbers.length; i++) {
+            System.out.print("                                 ");
             for (int j = 0; j < numbers.length; j++) {
 
                     if (numbers[i][j] < 10){
                         System.out.print("  " + numbers[i][j] + " ");
                     }
                     else if (numbers[i][j] >= 10) {
-                        System.out.print( " " + numbers[i][j] + " ");
+                        System.out.print(" " + numbers[i][j] + " ");
                 }
 
             }
