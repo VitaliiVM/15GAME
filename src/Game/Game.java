@@ -1,29 +1,42 @@
 package Game;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Random;
 
 public class Game {
 
-    private static final Random generator = new Random();
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final Random random = new Random();
     private static final int[][] numbers = new int[4][4];
+    private static int enter;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         gameStart();
 
-
     }
 
 
-
-    public static void gameStart() {
-        System.out.println("   ПЯТНАШКИ");
+    private static void gameStart() throws IOException {
+        System.out.println("ПЯТНАШКИ");
         init();
+
+        do {
+            showGameField();
+            System.out.println("Введите номер ячейки,который вы хотите переместить:");
+            enter = Integer.parseInt(reader.readLine());
+            change(enter);
+            checkWin();
+        }while (!checkWin());
         showGameField();
+
     }
 
-    public static void init() {
+
+    private static void init() throws IOException {
         int[] myNumbers = new int[16];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -36,8 +49,8 @@ public class Game {
             int k;
             int l;
             do {
-                k = generator.nextInt(100) % 4;
-                l = generator.nextInt(100) % 4;
+                k = random.nextInt(100) % 4;
+                l = random.nextInt(100) % 4;
             }
             while (numbers[k][l] != 0);
             numbers[k][l] = i;
@@ -55,6 +68,7 @@ public class Game {
                             int temp = myNumbers[i];
                             myNumbers[i] = myNumbers[j];
                             myNumbers[j] = temp;
+                            enter = temp;
                             change = true;
                             counter++;
                             break;
@@ -72,49 +86,52 @@ public class Game {
 
     }
 
-    public static void change(int num) {
+    private static void change(int num) throws IOException {
         int i = 0;
         int j = 0;
-        for (int k = 0; k < 4; k++) {
-            for (int l = 0; l < 4; l++) {
-                if (numbers[k][l] == num) {
-                    i = k;
-                    j = l;
+
+            for (int k = 0; k < 4; k++) {
+                for (int l = 0; l < 4; l++) {
+                    if (numbers[k][l] == num) {
+                        i = k;
+                        j = l;
+                    }
                 }
             }
-        }
 
-        if (i > 0){
-            if (numbers[i - 1][j] == 0) {
-                numbers[i - 1][j] = num;
-                numbers[i][j] = 0;
+        if (enter == numbers[i][j]) {
+            if (i > 0) {//up
+                if (numbers[i - 1][j] == 0) {
+                    numbers[i - 1][j] = num;
+                    numbers[i][j] = 0;
+                }
             }
-        }
 
-        if (i < 3) {
-            if (numbers[i + 1][j] == 0) {
-                numbers[i + 1][j] = num;
-                numbers[i][j] = 0;
+            if (i < 3) {//down
+                if (numbers[i + 1][j] == 0) {
+                    numbers[i + 1][j] = num;
+                    numbers[i][j] = 0;
+                }
             }
-        }
 
-        if (j > 0) {
-            if (numbers[i][j - 1] == 0) {
-                numbers[i][j - 1] = num;
-                numbers[i][j] = 0;
+            if (j > 0) {//left
+                if (numbers[i][j - 1] == 0) {
+                    numbers[i][j - 1] = num;
+                    numbers[i][j] = 0;
+                }
             }
-        }
 
-        if (j < 3) {
-            if (numbers[i][j + 1] == 0) {
-                numbers[i][j + 1] = num;
-                numbers[i][j] = 0;
+            if (j < 3) {//right
+                if (numbers[i][j + 1] == 0) {
+                    numbers[i][j + 1] = num;
+                    numbers[i][j] = 0;
+                }
             }
         }
     }
 
 
-        public boolean checkWin() {
+        private static boolean checkWin() {
             boolean status = true;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
@@ -128,16 +145,17 @@ public class Game {
             return status;
         }
 
-    public static void showGameField() {
-            System.out.println();
-            System.out.println(Arrays.toString(Game.numbers[0]));
-            System.out.println(Arrays.toString(Game.numbers[1]));
-            System.out.println(Arrays.toString(Game.numbers[2]));
-            System.out.println(Arrays.toString(Game.numbers[3]));
+    private static void showGameField() {
             System.out.println();
 
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers.length; j++) {
+                    System.out.print( "| " + numbers[i][j] + " |");
+            }
+            System.out.println();
         }
 
+        }
 }
 
 
